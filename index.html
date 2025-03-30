@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بطاقات عيد الفطر</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    * {
+      font-family: 'Baloo Bhaijaan 2', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #ebebeb;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+      font-size: 20px;
+    }
+    .controls {
+      text-align: center;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    .btn-normal {
+      background: #ff9900;
+    }
+    .btn-design {
+      background: #00a1ff;
+    }
+    .btn-download {
+      background: #28a745;
+    }
+    .btn-preview {
+      background: #dc3545;
+    }
+    .upload-label {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 5px 10px;
+      color: #fff;
+      margin: 10px auto -5px;
+    }
+	
+		    .button2 {
+      color: #ffffff;
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      padding: 7px 10px;
+      margin: 3px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 19px;
+    }
+	
+    button {
+      color: #ffffff;
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      padding: 4px 4px;
+      margin: 2px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 17px;
+    }
+	
+
+	
+    button.active {
+      opacity: 0.8;
+    }
+    #nameInput {
+      width: 300px;
+      padding: 5px;
+      margin: 5px;
+      font-size: 25px;
+      text-align: center;
+    }
+    /* استايل البطاقة */
+    .card-wrapper {
+      transform: scale(0.2);
+      transform-origin: top center;
+      margin: 1px 0;
+    }
+    .card-container {
+      width: 1080px;
+      height: 1920px;
+      position: relative;
+      overflow: hidden;
+    }
+    .template-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 2;
+    }
+    .user-image {
+      position: absolute;
+      width: 50%;
+      left: 25%;
+      top: 10%;
+      z-index: 0;
+      transition: all 0.3s;
+    }
+    /* القيم الأساسية عند عدم تفعيل رفع الصورة */
+    .card-logo {
+      position: absolute;
+      width: 550px;
+      height: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      transition: all 0.3s;
+      top: 14%;
+    }
+    .card-phrase {
+      position: absolute;
+      width: 800px;
+      height: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      transition: all 0.3s;
+      top: 41%;
+    }
+    .custom-phrase {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 70px;
+      color: #575757;
+      z-index: 4;
+      transition: all 0.3s;
+      top: 55%;
+      white-space: pre-wrap;
+      line-height: 25px;
+    }
+    .custom-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 80px;
+      color: #d7a634;
+      font-weight: bold;
+      z-index: 5;
+      transition: all 0.3s;
+      top: 77%;
+    }
+    .controls-section {
+      display: none;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      width: 100%;
+      max-width: 600px;
+    }
+    .controls-section h4 {
+      background: rgb(255 255 255);
+      display: inline-block;
+      padding: 5px 10px;
+      color: #616161;
+      margin-bottom: 0px;
+    }
+    .elements-container {
+      background: rgb(255 255 255);
+      padding: 3px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .element-img {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+    }
+    .element-img.selected {
+      transform: scale(1.2);
+      border: 2px solid #ff9900;
+    }
+    /* تحويل حقل العبارات إلى textarea للسماح بأسطر متعددة */
+    #customText {
+      width: 300px;
+      padding: 10px;
+      margin: 3px 0px 20px 0px;
+      font-size: 17px;
+      text-align: center;
+      display: block;
+      white-space: pre-wrap;
+      line-height: 20px;
+    }
+    .custom-text-title {
+      background: rgb(255 255 255 / 50%);
+      color: #616161;
+      padding: 2px 8px;
+      display: inline-block;
+      margin: 8px auto -5px;
+    }
+    .download-controls {
+      margin-top: 0px;
+      text-align: center;
+      width: 100%;
+    }
+    /* تنسيق جديد لحاوية التحكم في الصورة */
+    .image-controls {
+      background-color: #e1e1e1;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    @media (max-width: 768px) {
+      .controls, .controls-section, .download-controls {
+        width: 100%;
+      }
+      #nameInput, #customText {
+        width: 100%;
+      }
+      .card-container {
+        width: 90vw;
+        height: calc(90vw * (1920 / 1080));
+      }
+      .card-wrapper {
+        transform: scale(1);
+      }
+      .card-logo {
+        width: 55%;
+      }
+      .card-phrase {
+        width: 65%;
+      }
+      .custom-text {
+        font-size: 27px;
+      }
+      .custom-phrase {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>موقع لتصميم بطاقات العيد</h1>
+  <div class="controls">
+    <button class="btn-normal" onclick="showTemplate('normal', event)">
+      <i class="fas fa-gift"></i> بطاقة جاهزة عادية
+    </button>
+    <button class="btn-design" onclick="showTemplate('design', event)">
+      <i class="fas fa-palette"></i> تصميم بطاقة خاصة
+    </button>
+    <input type="text" id="nameInput" placeholder="أكتب اسمك هنا" oninput="updateName()">
+  </div>
+
+  <div class="controls-section" id="normalControls">
+    <label class="upload-label">
+      <input type="checkbox" id="uploadCheckNormal" onchange="toggleUpload('normal')"> هل تريد رفع صورتك؟
+    </label>
+    <div class="image-controls" id="imageControlsNormal" style="display: none;">
+      <input type="file" id="imageUploadNormal" accept="image/*" onchange="handleImageUpload(event)">
+      <button class="button2" onclick="adjustImage('scale', 1.1)">   <i class="fas fa-search-plus"></i>   </button>
+      <button class="button2" onclick="adjustImage('scale', 0.9)">   <i class="fas fa-search-minus"></i>   </button>
+      <button class="button2" onclick="adjustImage('move', 'up')">   <i class="fas fa-arrow-up"></i>   </button>
+      <button class="button2" onclick="adjustImage('move', 'down')">   <i class="fas fa-arrow-down"></i>   </button>
+	        <button class="button2" onclick="adjustImage('move', 'right')">   <i class="fas fa-arrow-right"></i>   </button>
+      <button class="button2" onclick="adjustImage('move', 'left')">   <i class="fas fa-arrow-left"></i>   </button>
+
+    </div>
+  </div>
+
+  <div class="controls-section" id="designControls">
+    <h4>اختر شعار العيد:</h4>
+    <div class="elements-container" id="logosContainer"></div>
+    <h4>اختر عبارة العيد:</h4>
+    <div class="elements-container" id="phrasesContainer"></div>
+    <div class="custom-text-title">أو أكتب بنفسك عبارات عيد</div>
+    <textarea id="customText" placeholder="اضف عبارات من عندك" oninput="updateCustomText()"></textarea>
+    <label class="upload-label">
+      <input type="checkbox" id="uploadCheckDesign" onchange="toggleUpload('design')"> هل تريد رفع صورتك؟
+    </label>
+    <div class="image-controls" id="imageControlsDesign" style="display: none;">
+      <input type="file" id="imageUploadDesign" accept="image/*" onchange="handleImageUpload(event)">
+      <button class="button2" onclick="adjustImage('scale', 1.1)"><i class="fas fa-search-plus"></i></button>
+      <button class="button2" onclick="adjustImage('scale', 0.9)"><i class="fas fa-search-minus"></i></button>
+      <button class="button2" onclick="adjustImage('move', 'up')"><i class="fas fa-arrow-up"></i></button>
+      <button class="button2" onclick="adjustImage('move', 'down')"><i class="fas fa-arrow-down"></i></button>
+	        <button class="button2" onclick="adjustImage('move', 'right')"><i class="fas fa-arrow-right"></i></button>
+      <button class="button2" onclick="adjustImage('move', 'left')"><i class="fas fa-arrow-left"></i></button>
+
+    </div>
+  </div>
+
+  <div class="controls download-controls">
+    <button class="btn-download" onclick="downloadCard()">
+      <i class="fas fa-download"></i> تنزيل البطاقة
+    </button>
+    <button class="btn-preview" onclick="previewCard()">
+      <i class="fas fa-eye"></i> معاينة البطاقة
+    </button>
+  </div>
+
+  <div class="card-wrapper">
+    <div class="card-container" id="cardMain">
+      <img id="userImage" class="user-image">
+      <img id="templateImg" class="template-image">
+      <!-- القيم الأساسية عبر data-original-top -->
+      <img id="selectedLogo" class="card-logo" data-original-top="14%">
+      <img id="selectedPhrase" class="card-phrase" data-original-top="41%">
+      <div id="customPhrase" class="custom-phrase" data-original-top="55%"></div>
+      <div id="nameDisplay" class="custom-text" data-original-top="77%"></div>
+    </div>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    let currentTemplate = 'normal';
+    let currentScale = 1;
+    let currentX = 0;
+    let currentY = 0;
+    // تغيير الرابط الأساسي لنوع normal إلى الرابط الجديد
+    let currentTemplateUrl = 'https://i.ibb.co/SXPDRdzX/ga1.png';
+
+    const logos = [
+      'https://i.ibb.co/PvF4LSS0/logo01.png',
+      'https://i.ibb.co/kkzZh3g/logo02.png',
+      'https://i.ibb.co/27y4hnPn/logo03.png',
+      'https://i.ibb.co/m5vdRvZW/logo04.png',
+      'https://i.ibb.co/Fqn5rTn7/logo05.png',
+      'https://i.ibb.co/k2kQWz0G/logo06.png',
+      'https://i.ibb.co/7JNm6xP6/logo07.png',
+      'https://i.ibb.co/Z6n3KYg1/logo08.png',
+      'https://i.ibb.co/r2cMHpmJ/logo09.png',
+      'https://i.ibb.co/gMJtsWGz/logo10.png'
+    ];
+    const phrases = [
+      'https://i.ibb.co/mFSTkLKQ/txt01.png',
+      'https://i.ibb.co/prfRXLRD/txt02.png',
+      'https://i.ibb.co/fVvpLJx9/txt03.png',
+      'https://i.ibb.co/DDjYh4f5/txt04.png',
+      'https://i.ibb.co/YB9HP1WZ/txt05.png'
+    ];
+
+    function showTemplate(type, event) {
+      currentTemplate = type;
+      document.querySelectorAll('.controls button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      if (type === 'normal') {
+        document.getElementById('normalControls').style.display = 'block';
+        document.getElementById('designControls').style.display = 'none';
+        currentTemplateUrl = document.getElementById('uploadCheckNormal').checked 
+          ? 'https://i.ibb.co/RpyzDLNF/ga2.png' 
+          : 'https://i.ibb.co/SXPDRdzX/ga1.png';
+      } else {
+        document.getElementById('normalControls').style.display = 'none';
+        document.getElementById('designControls').style.display = 'block';
+        currentTemplateUrl = document.getElementById('uploadCheckDesign').checked 
+          ? 'https://i.ibb.co/dwQncYtG/wall02.png' 
+          : 'https://i.ibb.co/qLYtgyQX/wall01.png';
+      }
+      document.getElementById('templateImg').src = currentTemplateUrl;
+      document.getElementById('selectedLogo').src = "";
+      document.getElementById('selectedPhrase').src = "";
+      document.getElementById('nameDisplay').textContent = "";
+      document.getElementById('customPhrase').textContent = "";
+      document.getElementById('templateImg').style.filter = "none";
+      document.getElementById('selectedLogo').style.filter = "none";
+      document.getElementById('selectedPhrase').style.filter = "none";
+      document.getElementById('nameDisplay').style.filter = "none";
+    }
+
+    function toggleUpload(type) {
+      const uploadCheck = document.getElementById(`uploadCheck${type.charAt(0).toUpperCase() + type.slice(1)}`);
+      const controls = document.getElementById(`imageControls${type.charAt(0).toUpperCase() + type.slice(1)}`);
+      controls.style.display = uploadCheck.checked ? 'block' : 'none';
+
+      if (type === 'normal') {
+        currentTemplateUrl = uploadCheck.checked 
+          ? 'https://i.ibb.co/RpyzDLNF/ga2.png' 
+          : 'https://i.ibb.co/SXPDRdzX/ga1.png';
+      } else {
+        currentTemplateUrl = uploadCheck.checked 
+          ? 'https://i.ibb.co/dwQncYtG/wall02.png' 
+          : 'https://i.ibb.co/qLYtgyQX/wall01.png';
+      }
+      document.getElementById('templateImg').src = currentTemplateUrl;
+
+      const logo = document.getElementById('selectedLogo');
+      const phrase = document.getElementById('selectedPhrase');
+      const customPhrase = document.getElementById('customPhrase');
+      const nameDisplay = document.getElementById('nameDisplay');
+
+      if (uploadCheck.checked) {
+        // عند تحديد رفع الصورة نستخدم القيم الجديدة
+        logo.style.top = "38%";
+        phrase.style.top = "54%";
+        customPhrase.style.top = "66%";
+        nameDisplay.style.top = "80%";
+      } else {
+        // إرجاع القيم الأصلية من data-original-top
+        logo.style.top = logo.dataset.originalTop;
+        phrase.style.top = phrase.dataset.originalTop;
+        customPhrase.style.top = customPhrase.dataset.originalTop;
+        nameDisplay.style.top = nameDisplay.dataset.originalTop;
+        document.getElementById('userImage').src = "";
+        currentScale = 1;
+        currentX = 0;
+        currentY = 0;
+        document.getElementById('userImage').style.transform = `translate(0px, 0px) scale(1)`;
+      }
+    }
+
+    window.onload = function() {
+      document.getElementById('templateImg').src = currentTemplateUrl;
+      logos.forEach(logo => {
+        const img = document.createElement('img');
+        img.src = logo;
+        img.className = 'element-img';
+        img.onclick = () => {
+          document.querySelectorAll('#logosContainer .element-img').forEach(i => i.classList.remove('selected'));
+          img.classList.add('selected');
+          document.getElementById('selectedLogo').src = logo;
+        };
+        document.getElementById('logosContainer').appendChild(img);
+      });
+      phrases.forEach(phrase => {
+        const img = document.createElement('img');
+        img.src = phrase;
+        img.className = 'element-img';
+        img.onclick = () => {
+          document.querySelectorAll('#phrasesContainer .element-img').forEach(i => i.classList.remove('selected'));
+          img.classList.add('selected');
+          document.getElementById('selectedPhrase').src = phrase;
+        };
+        document.getElementById('phrasesContainer').appendChild(img);
+      });
+    }
+
+    function handleImageUpload(e) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        document.getElementById('userImage').src = event.target.result;
+      }
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    function adjustImage(action, value) {
+      const img = document.getElementById('userImage');
+      if (action === 'scale') {
+        currentScale *= value;
+        img.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
+      } else if (action === 'move') {
+        const step = 10;
+        if (value === 'up') currentY -= step;
+        if (value === 'down') currentY += step;
+        if (value === 'left') currentX -= step;
+        if (value === 'right') currentX += step;
+        img.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
+      }
+    }
+
+    function updateName() {
+      document.getElementById('nameDisplay').textContent = document.getElementById('nameInput').value;
+    }
+
+    function downloadCard() {
+      const cardWrapper = document.querySelector('.card-wrapper');
+      const originalTransform = cardWrapper.style.transform;
+      cardWrapper.style.transform = 'scale(1)';
+      setTimeout(() => {
+        html2canvas(document.querySelector('.card-container'), {
+          useCORS: true,
+          backgroundColor: null
+        }).then(canvas => {
+          cardWrapper.style.transform = originalTransform;
+          const link = document.createElement('a');
+          link.download = 'eid-card.png';
+          link.href = canvas.toDataURL();
+          link.click();
+        });
+      }, 100);
+    }
+
+    function previewCard() {
+      const cardWrapper = document.querySelector('.card-wrapper');
+      const originalTransform = cardWrapper.style.transform;
+      cardWrapper.style.transform = 'scale(1)';
+      setTimeout(() => {
+        html2canvas(document.querySelector('.card-container'), {
+          useCORS: true,
+          backgroundColor: null
+        }).then(canvas => {
+          cardWrapper.style.transform = originalTransform;
+          const win = window.open();
+          win.document.write(`<img src="${canvas.toDataURL()}" style="max-width:100%">`);
+        });
+      }, 100);
+    }
+
+    function updateCustomText() {
+      document.getElementById('customPhrase').textContent = document.getElementById('customText').value;
+      if (document.getElementById('customText').value) {
+        document.getElementById('selectedPhrase').style.display = 'none';
+      } else {
+        document.getElementById('selectedPhrase').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
